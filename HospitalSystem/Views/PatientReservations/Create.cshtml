@@ -1,0 +1,97 @@
+﻿@model HospitalSystem.Models.PatientReservation
+
+@{
+    ViewData["Title"] = "Create New Reservation";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sickHistory").hide();
+
+        $("#IsSickHistory").click(function () {
+            if (this.checked) {
+                console.log("checked");
+                $("#sickHistory").show();
+            }
+            else {
+                 $("#sickHistory").hide();
+            }
+        });
+
+    });
+</script>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArabicName" class="control-label"></label>
+                <input asp-for="ArabicName" class="form-control" />
+                <span asp-validation-for="ArabicName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Male:   @Html.RadioButtonFor(model => model.Gender, "Male",true)
+                Female: @Html.RadioButtonFor(model => model.Gender, "Female")
+            </div>
+            <div class="form-group">
+                <label asp-for="Nationality" class="control-label"></label>
+                <input asp-for="Nationality" class="form-control" />
+                <span asp-validation-for="Nationality" class="text-danger"></span>
+
+            </div>   
+            <div class="form-group">
+                <label asp-for="NationalId" class="control-label"></label>
+                <input type="file" name="file" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PatientType" class="control-label"></label>
+                <select asp-for="PatientTypeId" class="form-control" asp-items=@(new SelectList(@ViewBag.PatientType,"PatientTypeId", "Name"))></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="HomeNumber" class="control-label"></label>
+                <input asp-for="HomeNumber" class="form-control" />
+                <span asp-validation-for="HomeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobileNumber" class="control-label"></label>
+                <input asp-for="MobileNumber" class="form-control" />
+                <span asp-validation-for="MobileNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsSickHistory" class="control-label"></label>
+                @Html.CheckBoxFor(m => m.IsSickHistory)
+            </div>
+            <div id="sickHistory">
+                <label class="control-label">DiseaseType </label><input asp-for="PatientHistory.DiseaseType" class="form-control" />
+                <label class="control-label">IsChronic</label>  @Html.CheckBoxFor(m => m.PatientHistory.IsChronic)<br/>
+                <label class="control-label">IsHereditany</label> @Html.CheckBoxFor(m => m.PatientHistory.IsHereditany)<br />
+                <label class="control-label">IsInfection</label>  @Html.CheckBoxFor(m => m.PatientHistory.IsInfection)<br/>
+                <label class="control-label">Doctor</label> <input asp-for="PatientHistory.Doctor" class="form-control" />
+                <label class="control-label">EnteranceDate</label>   <input asp-for="PatientHistory.EnteranceDate" class="form-control" />
+                <label class="control-label">LeaveDate</label>   <input asp-for="PatientHistory.LeaveDate" class="form-control" />
+                <label class="control-label">Diagnose</label>  <input asp-for="PatientHistory.Diagnose" class="form-control" />
+                <label class="control-label">Department</label>  <input asp-for="PatientHistory.Department" class="form-control" />
+            </div>     
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
